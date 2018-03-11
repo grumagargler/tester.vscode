@@ -3,7 +3,7 @@
 	"displayName": "Tester",
 	"description": "Tester Extension",
 	"version": "0.0.1",
-	"publisher": "grumagargler",
+	"publisher": "Reshitko Dmitry",
 	"engines": {
 		"vscode": "^1.19.0"
 	},
