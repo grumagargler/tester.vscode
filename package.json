@@ -1,14 +1,22 @@
 {
 	"name": "tester",
-	"displayName": "Tester",
-	"description": "Tester Extension",
-	"version": "0.0.1",
-	"publisher": "Reshitko Dmitry",
+	"displayName": "Tester 1C",
+	"description": "Tester 1C: Scenario Editor",
+	"version": "0.0.3",
+	"publisher": "Reshitko",
+	"license": "SEE LICENSE IN LICENSE",
 	"engines": {
 		"vscode": "^1.19.0"
 	},
 	"categories": [
 		"Other"
+	],
+	"keywords": [
+		"testing",
+		"bdd",
+		"tdd",
+		"scenario",
+		"1C:Enterprise"
 	],
 	"activationEvents": [
 		"onLanguage:bsl"
@@ -73,10 +81,18 @@
 		"postinstall": "node ./node_modules/vscode/bin/install",
 		"test": "node ./node_modules/vscode/bin/test"
 	},
+	"extensionDependencies": [
+		"xDrivenDevelopment.language-1c-bsl"
+	],
 	"devDependencies": {
 		"vscode": "^1.1.6",
 		"eslint": "^4.6.1",
 		"@types/node": "^7.0.43",
 		"@types/mocha": "^2.2.42"
-	}
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/grumagargler/tester.vscode.git"
+	},
+	"homepage": "http://test1c.com"
 }
