@@ -1,0 +1,9 @@
+// Place your settings in this file to overwrite the default settings
+{
+	"files.associations": {},
+	"window.zoomLevel": 1,
+	"update.channel": "none",
+	"editor.insertSpaces": false,
+	"editor.formatOnType": true,
+	"editor.formatOnSave": true
+}
