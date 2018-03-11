@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-# tester README
+#Расширение системы Тестер для Visual Studio Code
 
-[in development]
-=======
-# tester.vscode
-Visual Studio Code Extension
->>>>>>> aa18bb55c2aa31429c09e241805d7fb73a1024be
+[![Join the chat at https://gitter.im/tester1c/Lobby](https://badges.gitter.im/tester1c/Lobby.svg)](https://gitter.im/tester1c/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+Расширение добавляет в редактор vscode интеллисенс при написания сценарных тестов. Полная документация расположена по адресу http://test1c.com/#VSCode
