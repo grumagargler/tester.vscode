@@ -2,7 +2,7 @@
 	"name": "tester",
 	"displayName": "Tester 1C",
 	"description": "Tester 1C: Scenario Editor",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"publisher": "Reshitko",
 	"license": "SEE LICENSE IN LICENSE",
 	"engines": {
@@ -94,5 +94,6 @@
 		"type": "git",
 		"url": "https://github.com/grumagargler/tester.vscode.git"
 	},
-	"homepage": "http://test1c.com"
+	"homepage": "http://test1c.com",
+	"icon": "images/icon.png"
 }
