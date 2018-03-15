@@ -631,7 +631,7 @@ const Methods = {
 	gotorow: {
 		Name: 'GotoRow',
 		NameRu: 'КСтроке',
-		Params: [StandardParameters.Table, parameterInfo('Column', 'Колонка', [Types.String])],
+		Params: [StandardParameters.Table, parameterInfo('Column', 'Колонка', [Types.String]), StandardParameters.Value, parameterInfo('FromStart', 'ИзНачала', [Types.Boolean]), StandardParameters.Source],
 		Help: 'Производит переход к строке таблицы. Метод не предназначен для поиска строк, метод предназначен для навигации к нужной строке. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.GotoRow)',
 		HelpRu: 'Производит переход к строке таблицы. Метод не предназначен для поиска строк, метод предназначен для навигации к нужной строке. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.GotoRow)',
 		Returns: Types.Boolean
