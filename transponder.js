@@ -23,6 +23,7 @@ function Init() {
 
 function Run() {
 	if (!testerReady()) return;
+	Output.clear();
 	if (workspaceDirty()) saveAndRun();
 	else runTesting();
 }
@@ -147,6 +148,7 @@ function sendRequest(request) {
 
 function CheckModule() {
 	if (!testerReady()) return;
+	Output.clear();
 	if (getDocument().isDirty) saveAndCheck();
 	else checkSyntax();
 }
