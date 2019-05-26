@@ -360,14 +360,13 @@ const Methods = {
 		Name: 'Connect',
 		NameRu: 'Подключить',
 		Params: [parameterInfo('ClearErrors', 'ОчищатьОшибки', [Types.Boolean], '', '', 'true', 'истина'), parameterInfo('Post', 'Порт', [Types.Number], '', '', '0', '0')],
-		Help: 'Производит подключение Тестера к тестируемому приложению. Настройки подключения указываются в справочнике Приложения. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Connect)',
 		HelpRu: 'Производит подключение Тестера к тестируемому приложению. Настройки подключения указываются в справочнике Приложения. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Connect)',
 		Returns: undefined
 	},
 	disconnect: {
 		Name: 'Disconnect',
 		NameRu: 'Отключить',
-		Params: [parameterInfo('Close', 'Закрыть', [Types.Boolean], '', '', 'false', 'ложь')],
+		Params: [parameterInfo('Close', 'Закрыть', [Types.Boolean], '', '', 'false', 'ложь'), parameterInfo('ShutdownProxy', 'ТушитьПрокси', [Types.Boolean], '', '', 'false', 'ложь')],
 		Help: 'Производит отключение от тестируемого приложения. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Disconnect)',
 		HelpRu: 'Производит отключение от тестируемого приложения. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Disconnect)',
 		Returns: undefined
@@ -519,7 +518,7 @@ const Methods = {
 	checkstate: {
 		Name: 'CheckState',
 		NameRu: 'ПроверитьСтатус',
-		Params: [parameterInfo('Name', 'Имя', [Types.Button, Types.CommandBar, Types.Decoration, Types.Field, Types.Group, Types.InterfaceButton, Types.InterfaceGroup, Types.Table]), StandardParameters.Value, parameterInfo('Name', 'Имя', [Types.Boolean], '', '', 'true', 'истина'), StandardParameters.Source, StandardParameters.Type],
+		Params: [parameterInfo('Name', 'Имя', [Types.Button, Types.CommandBar, Types.Decoration, Types.Field, Types.Group, Types.InterfaceButton, Types.InterfaceGroup, Types.Table]), parameterInfo('Value', 'Значение', [Types.String]), parameterInfo('Name', 'Имя', [Types.Boolean], '', '', 'true', 'истина'), StandardParameters.Source, StandardParameters.Type],
 		Help: 'Проверяет оформление поля. Если оформление не совпадает с ожидаемым, будет вызвано исключение. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.CheckState)',
 		HelpRu: 'Проверяет оформление поля. Если оформление не совпадает с ожидаемым, будет вызвано исключение. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.CheckState)',
 		Returns: undefined
@@ -562,6 +561,22 @@ const Methods = {
 		Params: [parameterInfo('Reason', 'Причина', [Types.String], '', '', 'undefined', 'неопределено')],
 		Help: 'Завершает выполнение сценария. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Stop)',
 		HelpRu: 'Завершает выполнение сценария. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Stop)',
+		Returns: undefined
+	},
+	pinapplication: {
+		Name: 'PinApplication',
+		NameRu: 'УстановитьПриложение',
+		Params: [parameterInfo('Name', 'Имя', [Types.String])],
+		Help: 'Устанавливает в тестируемом окружении текущее приложение. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.PinApplication)',
+		HelpRu: 'Устанавливает в тестируемом окружении текущее приложение. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.PinApplication)',
+		Returns: undefined
+	},
+	setversion: {
+		Name: 'SetVersion',
+		NameRu: 'УстановитьВерсию',
+		Params: [parameterInfo('Application', 'Приложение', [Types.String]), parameterInfo('Version', 'Версия', [Types.String])],
+		Help: 'Устанавливает текущую версию приложения. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.SetVersion)',
+		HelpRu: 'Устанавливает текущую версию приложения. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.SetVersion)',
 		Returns: undefined
 	},
 	waiting: {
@@ -736,6 +751,8 @@ const MethodsRu = {
 	созданоокружение: Methods.environmentexists,
 	сохранитьокружение: Methods.registerenvironment,
 	встудию: Methods.vstudio,
+	установитьприложение: Methods.pinapplication,
+	установитьверсию: Methods.setversion,
 	cнимок: Methods.screenshot
 }
 
