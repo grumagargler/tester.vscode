@@ -193,7 +193,7 @@ class ScenarioDefinition {
 		let locations = [];
 		let location;
 		for (const file of list) {
-			location = new Studio.Location(new Studio.Uri.file(file), new Studio.Position(0, 0));
+			location = new Studio.Location(Studio.Uri.file(file), new Studio.Position(0, 0));
 			locations.push(location);
 		}
 		return locations;
