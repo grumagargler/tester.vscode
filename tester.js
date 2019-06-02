@@ -706,6 +706,14 @@ const Methods = {
 		Help: 'Возвращает скриншот тестируемого приложения. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Screenshot)',
 		HelpRu: 'Возвращает скриншот тестируемого приложения. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Screenshot)',
 		Returns: Types.BinaryData
+	},
+	gotoconsole: {
+		Name: 'GotoConsole',
+		NameRu: 'ПерейтиВКонсоль',
+		Params: [],
+		Help: 'Перенаправляет RDP-сессию в основную консоль сервера. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.GotoConsole)',
+		HelpRu: 'Перенаправляет RDP-сессию в основную консоль сервера. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.GotoConsole)',
+		Returns: undefined
 	}
 }
 
@@ -753,7 +761,8 @@ const MethodsRu = {
 	встудию: Methods.vstudio,
 	установитьприложение: Methods.pinapplication,
 	установитьверсию: Methods.setversion,
-	cнимок: Methods.screenshot
+	cнимок: Methods.screenshot,
+	перейтивконсоль: Methods.gotoconsole
 }
 
 const Languages = {
