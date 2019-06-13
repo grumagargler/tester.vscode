@@ -2,7 +2,7 @@
 	"name": "tester",
 	"displayName": "Tester 1C",
 	"description": "Tester 1C: Scenario Editor",
-	"version": "0.0.9",
+	"version": "0.0.10",
 	"publisher": "Reshitko",
 	"license": "SEE LICENSE IN LICENSE",
 	"engines": {
@@ -69,6 +69,12 @@
 				"command": "extension.generateID",
 				"key": "ctrl+shift+i",
 				"mac": "cmd+shift+i",
+				"when": "editorTextFocus"
+			},
+			{
+				"command": "extension.runSelected",
+				"key": "ctrl+alt+r",
+				"mac": "cmd+alt+r",
 				"when": "editorTextFocus"
 			}
 		],

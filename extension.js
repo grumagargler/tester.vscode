@@ -53,6 +53,7 @@ function registerCommands(Context) {
 	subscriptions.push(commands.registerCommand('extension.checkModule', Transponder.CheckModule));
 	subscriptions.push(commands.registerCommand('extension.pickField', Transponder.RetrieveFields));
 	subscriptions.push(commands.registerTextEditorCommand('extension.generateID', Transponder.GenerateID));
+	subscriptions.push(commands.registerTextEditorCommand('extension.runSelected', Transponder.RunSelected));
 }
 
 function registerWatcher(context) {

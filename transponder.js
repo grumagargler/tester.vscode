@@ -99,6 +99,31 @@ function sformat(Str) {
 	});
 }
 
+function RunSelected(TextEditor) {
+	if (!testerReady()) return;
+	if (workspaceDirty()) saveAndRunSelected();
+	else runSelectedScript(TextEditor);
+}
+
+function saveAndRunSelected() {
+	let request = prepareRequest();
+	request.File = getDocument().fileName;
+	request.Request = Requests.SaveBeforeRunSelected;
+	sendRequest(request);
+}
+
+function runSelectedScript(TextEditor) {
+	Output.clear();
+	let request = prepareRequest();
+	request.Request = Requests.RunSelected;
+	request.File = getDocument().fileName;
+	request.Data = {
+		"Start": 1 + TextEditor.selection.start.line,
+		"Selection": TextEditor.document.getText(TextEditor.selection)
+	};
+	sendRequest(request);
+}
+
 function SetMain() {
 	if (!testerReady()) return;
 	if (workspaceDirty()) saveAndAssign();
@@ -176,47 +201,43 @@ function ProceedResponse(Event) {
 	let response = getResponse(file);
 	if (!response) return;
 	switch (response.Request.Request) {
-		case Requests.CheckSyntax:
-			{
-				Problems.clear();
-				showMessages(response);
-				break;
-			}
-		case Requests.SaveBeforeCheckSyntax:
-			{
-				proceedCheckSyntax(response);
-				break;
-			}
-		case Requests.SaveBeforeRun:
-			{
-				proceedRun(response);
-				break;
-			}
-		case Requests.SaveBeforeAssigning:
-			{
-				proceedAssigning(response)
-				break;
-			}
-		case Requests.PickField:
-			{
-				proceedFields(response);
-				break;
-			}
-		case Requests.PickScenario:
-			{
-				proceedScenarios(response);
-				break;
-			}
-		case Requests.GenerateID:
-			{
-				insertID(response);
-				break;
-			}
-		default:
-			{
-				Problems.clear();
-				showMessages(response);
-			}
+		case Requests.CheckSyntax: {
+			Problems.clear();
+			showMessages(response);
+			break;
+		}
+		case Requests.SaveBeforeCheckSyntax: {
+			proceedCheckSyntax(response);
+			break;
+		}
+		case Requests.SaveBeforeRun: {
+			proceedRun(response);
+			break;
+		}
+		case Requests.SaveBeforeRunSelected: {
+			proceedRunSelected(response);
+			break;
+		}
+		case Requests.SaveBeforeAssigning: {
+			proceedAssigning(response)
+			break;
+		}
+		case Requests.PickField: {
+			proceedFields(response);
+			break;
+		}
+		case Requests.PickScenario: {
+			proceedScenarios(response);
+			break;
+		}
+		case Requests.GenerateID: {
+			insertID(response);
+			break;
+		}
+		default: {
+			Problems.clear();
+			showMessages(response);
+		}
 	}
 	Studio.window.setStatusBarMessage(sformat(MessagesList.RequestCompleted, response.Request.Request));
 }
@@ -230,26 +251,23 @@ function showMessages(response) {
 		let text = message.Text;
 		switch (type) {
 			case Messages.Popup:
-			case Messages.Hint:
-				{
-					Output.appendLine(text);
-					break;
-				}
-			case Messages.PopupWarning:
-				{
-					Studio.window.showWarningMessage(text);
-					break;
-				}
-			default:
-				{
-					let line = message.Line - 1;
-					let column = message.Column - 1;
-					let range = new Studio.Range(line, column, line, column);
-					let msg = [new Studio.Diagnostic(range, text, messageSeverity(type))];
-					let file = message.File;
-					let url = Studio.Uri.file(!file ? currentFile() : file);
-					messages.push([url, msg]);
-				}
+			case Messages.Hint: {
+				Output.appendLine(text);
+				break;
+			}
+			case Messages.PopupWarning: {
+				Studio.window.showWarningMessage(text);
+				break;
+			}
+			default: {
+				let line = message.Line - 1;
+				let column = message.Column - 1;
+				let range = new Studio.Range(line, column, line, column);
+				let msg = [new Studio.Diagnostic(range, text, messageSeverity(type))];
+				let file = message.File;
+				let url = Studio.Uri.file(!file ? currentFile() : file);
+				messages.push([url, msg]);
+			}
 		}
 	}
 	Problems.set(messages);
@@ -285,6 +303,12 @@ function saveUnsaved() {
 			break;
 		}
 	}
+}
+
+function proceedRunSelected(response) {
+	let fileSaved = response.TransactionComplete;
+	if (fileSaved) Studio.commands.executeCommand('extension.runSelected');
+	else saveUnsaved();
 }
 
 function proceedAssigning(response) {
@@ -370,7 +394,9 @@ const Requests = {
 	PickScenario: 'PickScenario',
 	GenerateID: 'GenerateID',
 	SaveBeforeAssigning: 'SaveBeforeAssigning',
-	SetMain: 'SetMain'
+	SetMain: 'SetMain',
+	SaveBeforeRunSelected: 'SaveBeforeRunSelected',
+	RunSelected: 'RunSelected'
 }
 
 const Statuses = {
@@ -379,6 +405,7 @@ const Statuses = {
 
 exports.Init = Init;
 exports.Run = Run;
+exports.RunSelected = RunSelected;
 exports.SetMain = SetMain;
 exports.CheckModule = CheckModule;
 exports.RetrieveFields = RetrieveFields;
