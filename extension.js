@@ -7,6 +7,7 @@ const Transponder = require('./transponder');
 const MessagesList = require('./messages').MessagesList;
 const Types = Tester.Types;
 const Methods = Tester.Methods;
+const FluentMethods = Tester.FluentMethods;
 const FileExtensions = Tester.FileExtensions;
 const Languages = Tester.Languages;
 const Commands = Tester.Commands;
@@ -38,6 +39,7 @@ function registerProviders(Context) {
 	let subscriptions = Context.subscriptions;
 	let langs = Studio.languages;
 	subscriptions.push(langs.registerCompletionItemProvider("bsl", new MethodsList()));
+	subscriptions.push(langs.registerCompletionItemProvider("bsl", new FluentList(), "."));
 	subscriptions.push(langs.registerCompletionItemProvider("bsl", new FieldsList('#'), "#"));
 	subscriptions.push(langs.registerCompletionItemProvider("bsl", new FieldsList('!'), "!"));
 	subscriptions.push(langs.registerCompletionItemProvider("bsl", new FieldsList('\"'), "\""));
@@ -81,6 +83,21 @@ class MethodsList {
 			let entry = Methods[method];
 			let item = new Studio.CompletionItem(entry[name], Studio.CompletionItemKind.Field);
 			item.documentation = new Studio.MarkdownString(entry[help]);
+			list.push(item);
+		}
+		return list;
+	}
+}
+
+class FluentList {
+	provideCompletionItems(Document, Position) {
+		let data = SourceCode.Fluent(Document, Position);
+		if (!data) return;
+		let list = [];
+		for (const method in FluentMethods) {
+			let entry = FluentMethods[method];
+			let item = new Studio.CompletionItem(entry[data.Name], Studio.CompletionItemKind.Field);
+			item.documentation = new Studio.MarkdownString(entry[data.Help]);
 			list.push(item);
 		}
 		return list;

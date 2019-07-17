@@ -134,7 +134,8 @@ const StandardParameters = {
 	Value: parameterInfo('Value', 'Значение', [Types.String, Types.Number, Types.Date]),
 	Form: parameterInfo('Form', 'Форма', [Types.Form]),
 	Table: parameterInfo('Table', 'Таблица', [Types.Table]),
-	Type: parameterInfo('Type', 'Тип', [Types.Type], '', '', 'undefined', 'неопределено')
+	Type: parameterInfo('Type', 'Тип', [Types.Type], '', '', 'undefined', 'неопределено'),
+	Any: parameterInfo('Value', 'Значение', [Types.Any])
 }
 
 const Commands = [{
@@ -646,7 +647,7 @@ const Methods = {
 	gotorow: {
 		Name: 'GotoRow',
 		NameRu: 'КСтроке',
-		Params: [StandardParameters.Table, parameterInfo('Column', 'Колонка', [Types.String]), StandardParameters.Value, parameterInfo('FromStart', 'ИзНачала', [Types.Boolean]), StandardParameters.Source],
+		Params: [StandardParameters.Value.Table, parameterInfo('Column', 'Колонка', [Types.String]), StandardParameters.Value, parameterInfo('FromStart', 'ИзНачала', [Types.Boolean]), StandardParameters.Source],
 		Help: 'Производит переход к строке таблицы. Метод не предназначен для поиска строк, метод предназначен для навигации к нужной строке. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.GotoRow)',
 		HelpRu: 'Производит переход к строке таблицы. Метод не предназначен для поиска строк, метод предназначен для навигации к нужной строке. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.GotoRow)',
 		Returns: Types.Boolean
@@ -714,6 +715,14 @@ const Methods = {
 		Help: 'Перенаправляет RDP-сессию в основную консоль сервера. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.GotoConsole)',
 		HelpRu: 'Перенаправляет RDP-сессию в основную консоль сервера. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.GotoConsole)',
 		Returns: undefined
+	},
+	assert: {
+		Name: 'Assert',
+		NameRu: 'Заявить',
+		Params: [parameterInfo('What', 'Что', [Types.Any]), parameterInfo('Details', 'Детали', [Types.String], '', '', '""', '""')],
+		Help: 'Метод для работы с библиотекой текучих выражений по тестированию значений. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		HelpRu: 'Метод для работы с библиотекой текучих выражений по тестированию значений. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
 	}
 }
 
@@ -762,7 +771,150 @@ const MethodsRu = {
 	установитьприложение: Methods.pinapplication,
 	установитьверсию: Methods.setversion,
 	cнимок: Methods.screenshot,
-	перейтивконсоль: Methods.gotoconsole
+	перейтивконсоль: Methods.gotoconsole,
+	заявить: Methods.assert
+}
+
+const FluentMethods = {
+	istrue: {
+		Name: 'IsTrue',
+		NameRu: 'ЭтоИстина',
+		Params: [],
+		HelpRu: 'Проверяет, что значение Истина. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
+	},
+	isfalse: {
+		Name: 'IsFalse',
+		NameRu: 'ЭтоЛожь',
+		Params: [],
+		HelpRu: 'Проверяет, что значение Ложь. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
+	},
+	equal: {
+		Name: 'Equal',
+		NameRu: 'Равно',
+		Params: [StandardParameters.Any],
+		HelpRu: 'Проверяет, что значение равно переданному параметру. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
+	},
+	notequal: {
+		Name: 'NotEqual',
+		NameRu: 'НеРавно',
+		Params: [StandardParameters.Any],
+		HelpRu: 'Проверяет, что значение не равно переданному параметру. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
+	},
+	greater: {
+		Name: 'Greater',
+		NameRu: 'Больше',
+		Params: [StandardParameters.Any],
+		HelpRu: 'Проверяет, что значение больше переданного параметра. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
+	},
+	greaterorequal: {
+		Name: 'GreaterOrEqual',
+		NameRu: 'БольшеИлиРавно',
+		Params: [StandardParameters.Any],
+		HelpRu: 'Проверяет, что значение больше или равно переданного параметра. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
+	},
+	less: {
+		Name: 'Less',
+		NameRu: 'Меньше',
+		Params: [StandardParameters.Any],
+		HelpRu: 'Проверяет, что значение меньше переданного параметра. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
+	},
+	lessorequal: {
+		Name: 'LessOrEqual',
+		NameRu: 'МеньшеИлиРавно',
+		Params: [StandardParameters.Any],
+		HelpRu: 'Проверяет, что значение меньше или равно переданного параметра. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
+	},
+	filled: {
+		Name: 'Filled',
+		NameRu: 'Заполнено',
+		Params: [],
+		HelpRu: 'Проверка заполненности значения. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
+	},
+	empty: {
+		Name: 'Empty',
+		NameRu: 'Пусто',
+		Params: [],
+		HelpRu: 'Проверяет, что значение пустое. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
+	},
+	exists: {
+		Name: 'Exists',
+		NameRu: 'Существует',
+		Params: [],
+		HelpRu: 'Проверяет, что значение не является Неопределено и не Null. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
+	},
+	isnull: {
+		Name: 'IsNull',
+		NameRu: 'ЭтоNull',
+		Params: [],
+		HelpRu: 'Проверка на Null. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
+	},
+	isundefined: {
+		Name: 'IsUndefined',
+		NameRu: 'ЭтоНеопределено',
+		Params: [],
+		HelpRu: 'Проверка на Неопределено. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
+	},
+	between: {
+		Name: 'Between',
+		NameRu: 'Между',
+		Params: [parameterInfo('Start', 'Старт', [Types.Number, Types.Date]), parameterInfo('Finish', 'Финиш', [Types.Number, Types.Date])],
+		HelpRu: 'Проверка на вхождение значения в диапазон. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
+	},
+	contains: {
+		Name: 'Contains',
+		NameRu: 'Содержит',
+		Params: [StandardParameters.Any],
+		HelpRu: 'Проверяет, что переданное значение находится в исходном объекте. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
+	},
+	has: {
+		Name: 'Has',
+		NameRu: 'Вмещает',
+		Params: [parameterInfo('Size', 'Размер', [Types.Number])],
+		HelpRu: 'Проверяет переданное значение на длину или размер. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
+	},
+	not_: {
+		Name: 'Not_',
+		NameRu: 'Не_',
+		Params: [],
+		HelpRu: 'Метод-префикс для реверса следующего за ним условия. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
+		Returns: undefined
+	}
+}
+
+const FluentMethodsRu = {
+	этоистина: FluentMethods.istrue,
+	этоложь: FluentMethods.isfalse,
+	равно: FluentMethods.equal,
+	неравно: FluentMethods.notequal,
+	больше: FluentMethods.greater,
+	большеилиравно: FluentMethods.greaterorequal,
+	меньше: FluentMethods.less,
+	меньшеилиравно: FluentMethods.lessorequal,
+	заполнено: FluentMethods.filled,
+	пусто: FluentMethods.empty,
+	существует: FluentMethods.exists,
+	этоnull: FluentMethods.isnull,
+	этонеопределено: FluentMethods.isundefined,
+	между: FluentMethods.between,
+	содержит: FluentMethods.contains,
+	вмещает: FluentMethods.has,
+	не_: FluentMethods.not_
 }
 
 const Languages = {
@@ -780,4 +932,6 @@ exports.Languages = Languages;
 exports.Commands = Commands;
 exports.Methods = Methods;
 exports.MethodsRu = MethodsRu;
+exports.FluentMethods = FluentMethods;
+exports.FluentMethodsRu = FluentMethodsRu;
 exports.FileExtensions = FileExtensions;

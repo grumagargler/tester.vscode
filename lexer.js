@@ -2,6 +2,8 @@ const Tester = require('./tester');
 const Languages = Tester.Languages;
 const Methods = Tester.Methods;
 const MethodsRu = Tester.MethodsRu;
+const FluentMethods = Tester.FluentMethods;
+const FluentMethodsRu = Tester.FluentMethodsRu;
 
 exports.SourceCode = class SourceCode {
 	static Position(Document, Position) {
@@ -20,6 +22,18 @@ exports.SourceCode = class SourceCode {
 			if (!method) {
 				method = Methods[name];
 				lang = Languages.English;
+			}
+			if (!method) {
+				let data = SourceCode.Fluent(Document, Position);
+				if (data) {
+					if (data.Name === "NameRu") {
+						method = FluentMethodsRu[name];
+						lang = Languages.Russian;
+					} else {
+						method = FluentMethods[name];
+						lang = Languages.English;
+					}
+				}
 			}
 			if (method) return {
 				Method: method,
@@ -53,44 +67,39 @@ exports.SourceCode = class SourceCode {
 		let i = 0;
 		for (const char of Chars) {
 			switch (char) {
-				case Lexicon.Name:
-					{
-						if (lastElement === Lexicon.String ||
-							lastElement === char) currentToken.End = i;
-						else currentToken = newToken(char, i);
-						break;
-					}
-				case Lexicon.Number:
-					{
-						if (lastElement === Lexicon.String ||
-							lastElement === Lexicon.Name ||
-							lastElement === char) currentToken.End = i;
-						else currentToken = newToken(char, i);
-						break;
-					}
-				case Lexicon.String:
-					{
-						if (lastElement === char) {
-							currentToken.End = i;
-							stringEnds = i;
-						} else currentToken = newToken(char, i);
-						break;
-					}
-				case Lexicon.Slash:
-					{
-						if (lastElement === Lexicon.String) currentToken.End = i;
-						else if (lastElement === char) {
-							currentToken.Element = Lexicon.Comment;
-							currentToken.End = Chars.length - 1;
-						} else currentToken = newToken(char, i);
-						break;
-					}
-				default:
-					{
-						if (lastElement === Lexicon.String) currentToken.End = i;
-						else currentToken = newToken(char, i);
-						break;
-					}
+				case Lexicon.Name: {
+					if (lastElement === Lexicon.String ||
+						lastElement === char) currentToken.End = i;
+					else currentToken = newToken(char, i);
+					break;
+				}
+				case Lexicon.Number: {
+					if (lastElement === Lexicon.String ||
+						lastElement === Lexicon.Name ||
+						lastElement === char) currentToken.End = i;
+					else currentToken = newToken(char, i);
+					break;
+				}
+				case Lexicon.String: {
+					if (lastElement === char) {
+						currentToken.End = i;
+						stringEnds = i;
+					} else currentToken = newToken(char, i);
+					break;
+				}
+				case Lexicon.Slash: {
+					if (lastElement === Lexicon.String) currentToken.End = i;
+					else if (lastElement === char) {
+						currentToken.Element = Lexicon.Comment;
+						currentToken.End = Chars.length - 1;
+					} else currentToken = newToken(char, i);
+					break;
+				}
+				default: {
+					if (lastElement === Lexicon.String) currentToken.End = i;
+					else currentToken = newToken(char, i);
+					break;
+				}
 			}
 			if (currentToken) {
 				if (currentToken.Element === Lexicon.Comment) break;
@@ -117,38 +126,33 @@ exports.SourceCode = class SourceCode {
 		for (const token of Tokens) {
 			if (token.Start >= Column) break;
 			switch (token.Element) {
-				case Lexicon.Name:
-					{
-						candidate = token;
-						break;
+				case Lexicon.Name: {
+					candidate = token;
+					break;
+				}
+				case Lexicon.Space: {
+					break;
+				}
+				case Lexicon.BracketStart: {
+					if (candidate) methods.push({
+						Method: candidate,
+						Parameter: 0,
+						Tokens: [token]
+					});
+					break;
+				}
+				case Lexicon.BracketEnd: {
+					methods.pop();
+					break;
+				}
+				case Lexicon.Comma: {
+					if (methods.length > 0) {
+						let entry = methods[methods.length - 1];
+						entry.Parameter++;
+						entry.Tokens.push(token);
 					}
-				case Lexicon.Space:
-					{
-						break;
-					}
-				case Lexicon.BracketStart:
-					{
-						if (candidate) methods.push({
-							Method: candidate,
-							Parameter: 0,
-							Tokens: [token]
-						});
-						break;
-					}
-				case Lexicon.BracketEnd:
-					{
-						methods.pop();
-						break;
-					}
-				case Lexicon.Comma:
-					{
-						if (methods.length > 0) {
-							let entry = methods[methods.length - 1];
-							entry.Parameter++;
-							entry.Tokens.push(token);
-						}
-						break;
-					}
+					break;
+				}
 				default:
 					candidate = undefined;
 			}
@@ -165,6 +169,29 @@ exports.SourceCode = class SourceCode {
 		else return Languages.English;
 	}
 
+	static Fluent(Document, Position) {
+		let name;
+		let help;
+		let line = Document.lineAt(Position).text.slice(0, Position.character);
+		if (found(line, Methods.assert.NameRu)) {
+			name = 'NameRu';
+			help = 'HelpRu';
+		} else if (found(line, Methods.assert.Name)) {
+			name = 'Name';
+			help = 'Help';
+		} else {
+			return;
+		}
+		return {
+			'Name': name,
+			'Help': help
+		};
+
+		function found(Line, Method) {
+			let rex = new RegExp(`(^|\\s+)${Method}(\\s+)?.+?\\)`);
+			return rex.exec(Line);
+		}
+	}
 	static Method(Document, Position) {
 		let row = Document.lineAt(Position).text;
 		let column = Position.character;
