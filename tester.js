@@ -125,6 +125,21 @@ const Types = {
 		Name: 'BinaryData',
 		En: 'BinaryData',
 		Ru: 'ДвоичныеДанные'
+	},
+	ScenariosRef: {
+		Name: 'CatalogRef.Scenarios',
+		En: 'CatalogRef.Scenarios',
+		Ru: 'СправочникСсылка.Scenarios'
+	},
+	VersionsRef: {
+		Name: 'CatalogRef.Versions',
+		En: 'CatalogRef.Versions',
+		Ru: 'СправочникСсылка.Versions'
+	},
+	SessionsRef: {
+		Name: 'CatalogRef.Sessions',
+		En: 'CatalogRef.Sessions',
+		Ru: 'СправочникСсылка.Sessions'
 	}
 }
 
@@ -135,7 +150,9 @@ const StandardParameters = {
 	Form: parameterInfo('Form', 'Форма', [Types.Form]),
 	Table: parameterInfo('Table', 'Таблица', [Types.Table]),
 	Type: parameterInfo('Type', 'Тип', [Types.Type], '', '', 'undefined', 'неопределено'),
-	Any: parameterInfo('Value', 'Значение', [Types.Any])
+	Any: parameterInfo('Value', 'Значение', [Types.Any]),
+	Scenario: parameterInfo('Scenario', 'Сценарий', [Types.ScenariosRef, Types.VersionsRef], '', '', 'undefined', 'неопределено'),
+	Session: parameterInfo('Session', 'Сессия', [Types.SessionsRef], '', '', 'undefined', 'неопределено')
 }
 
 const Commands = [{
@@ -723,6 +740,46 @@ const Methods = {
 		Help: 'Метод для работы с библиотекой текучих выражений по тестированию значений. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
 		HelpRu: 'Метод для работы с библиотекой текучих выражений по тестированию значений. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Assert)',
 		Returns: undefined
+	},
+	progressshow: {
+		Name: 'ProgressShow',
+		NameRu: 'ПрогрессПоказать',
+		Params: [],
+		Help: 'Отображает окно с индикатором прогресса выполнения сценария. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.ProgressShow)',
+		HelpRu: 'Отображает окно с индикатором прогресса выполнения сценария. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.ProgressShow)',
+		Returns: undefined
+	},
+	progresshide: {
+		Name: 'ProgressHide',
+		NameRu: 'ПрогрессСкрыть',
+		Params: [],
+		Help: 'Скрывает окно с индикатором прогресса выполнения сценария. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.ProgressHide)',
+		HelpRu: 'Скрывает окно с индикатором прогресса выполнения сценария. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.ProgressHide)',
+		Returns: undefined
+	},
+	recorderstart: {
+		Name: 'RecorderStart',
+		NameRu: 'ХронографСтарт',
+		Params: [],
+		Help: 'Включает запись хода выполнения сценария. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.RecorderStart)',
+		HelpRu: 'Включает запись хода выполнения сценария. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.RecorderStart)',
+		Returns: undefined
+	},
+	recorderstop: {
+		Name: 'RecorderStop',
+		NameRu: 'ХронографСтоп',
+		Params: [],
+		Help: 'Выключает запись хода выполнения сценария. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.RecorderStop)',
+		HelpRu: 'Выключает запись хода выполнения сценария. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.RecorderStop)',
+		Returns: undefined
+	},
+	recorderclean: {
+		Name: 'RecorderClean',
+		NameRu: 'ХронографОчистить',
+		Params: [StandardParameters.Scenario, parameterInfo('DateTo', 'ПоДату', [Types.Date]), StandardParameters.Session],
+		Help: 'Очищает хронограф системы. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.RecorderClean)',
+		HelpRu: 'Очищает хронограф системы. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.RecorderClean)',
+		Returns: undefined
 	}
 }
 
@@ -772,7 +829,12 @@ const MethodsRu = {
 	установитьверсию: Methods.setversion,
 	cнимок: Methods.screenshot,
 	перейтивконсоль: Methods.gotoconsole,
-	заявить: Methods.assert
+	заявить: Methods.assert,
+	хронографстарт: Methods.recorderstart,
+	хронографстоп: Methods.recorderstop,
+	хронографочистить: Methods.recorderclean,
+	прогресспоказать: Methods.progressshow,
+	прогрессскрыть: Methods.progresshide
 }
 
 const FluentMethods = {
