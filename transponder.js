@@ -23,6 +23,7 @@ function Init() {
 
 function Run() {
 	if (!testerReady()) return;
+	Problems.clear();
 	Output.clear();
 	if (workspaceDirty()) saveAndRun();
 	else runTesting();
