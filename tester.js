@@ -780,6 +780,30 @@ const Methods = {
 		Help: 'Очищает хронограф системы. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.RecorderClean)',
 		HelpRu: 'Очищает хронограф системы. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.RecorderClean)',
 		Returns: undefined
+	},
+	systemvariable: {
+		Name: 'SystemVariable',
+		NameRu: 'ПеременнаяСреды',
+		Params: [parameterInfo('Name', 'Имя', [Types.String])],
+		Help: 'Функция возвращает значение параметра системного окружения. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.SystemVariable)',
+		HelpRu: 'Функция возвращает значение параметра системного окружения. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.SystemVariable)',
+		Returns: Types.String
+	},
+	maximizewindow: {
+		Name: 'MaximizeWindow',
+		NameRu: 'МаксимизироватьОкно',
+		Params: [parameterInfo('Pattern', 'Заголовок', [Types.String])],
+		Help: 'Разворачивает окно приложения по переданному заголовку. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.MaximizeWindow)',
+		HelpRu: 'Разворачивает окно приложения по переданному заголовку. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.MaximizeWindow)',
+		Returns: undefined
+	},
+	minimizewindow: {
+		Name: 'MinimizeWindow',
+		NameRu: 'МинимизироватьОкно',
+		Params: [parameterInfo('Pattern', 'Заголовок', [Types.String])],
+		Help: 'Сворачивает окно приложения по переданному заголовку. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.MinimizeWindow)',
+		HelpRu: 'Сворачивает окно приложения по переданному заголовку. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.MinimizeWindow)',
+		Returns: undefined
 	}
 }
 
@@ -834,7 +858,10 @@ const MethodsRu = {
 	хронографстоп: Methods.recorderstop,
 	хронографочистить: Methods.recorderclean,
 	прогресспоказать: Methods.progressshow,
-	прогрессскрыть: Methods.progresshide
+	прогрессскрыть: Methods.progresshide,
+	переменнаясреды: Methods.systemvariable,
+	максимизироватьокно: Methods.maximizewindow,
+	минимизироватьокно: Methods.minimizewindow
 }
 
 const FluentMethods = {
@@ -989,6 +1016,8 @@ const FileExtensions = {
 	Template: 'mxl'
 }
 
+const FolderPrefix = ".dir";
+
 exports.Types = Types;
 exports.Languages = Languages;
 exports.Commands = Commands;
@@ -997,3 +1026,4 @@ exports.MethodsRu = MethodsRu;
 exports.FluentMethods = FluentMethods;
 exports.FluentMethodsRu = FluentMethodsRu;
 exports.FileExtensions = FileExtensions;
+exports.FolderPrefix = FolderPrefix;

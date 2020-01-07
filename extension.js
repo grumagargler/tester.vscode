@@ -16,7 +16,6 @@ const GetControls = Transponder.GetControls;
 const ResetControls = Transponder.ResetControls;
 const GetScenarios = Transponder.GetScenarios;
 const ResetScenarios = Transponder.ResetScenarios;
-let WorkspaceFolders;
 
 function activate(Context) {
 	if (!init()) return;
@@ -26,8 +25,7 @@ function activate(Context) {
 }
 
 function init() {
-	WorkspaceFolders = Studio.workspace.workspaceFolders;
-	if (!WorkspaceFolders) {
+	if (!Studio.workspace.workspaceFolders) {
 		console.log(MessagesList.ProjectFolderUndefined);
 		return false;
 	}
@@ -247,11 +245,16 @@ class ScenarioDefinition {
 
 		function getFiles() {
 			let list = [];
+			let folders = [];
 			let path = data.Scenario.replace(/\./g, '\\' + Path.sep);
-			let folder;
-			if (data.Method === Methods.call) folder = WorkspaceFolders[0].uri._fsPath;
-			else folder = Path.dirname(Studio.window.activeTextEditor.document.fileName);
-			findFiles(list, folder, path);
+			if (data.Method === Methods.call) {
+				for (const item of Studio.workspace.workspaceFolders) {
+					folders.push(item.uri._fsPath);
+				}
+			} else folders.push(Path.dirname(Studio.window.activeTextEditor.document.fileName));
+			for (const folder of folders) {
+				findFiles(list, folder, path);
+			}
 			return list;
 		}
 
@@ -265,10 +268,10 @@ class ScenarioDefinition {
 				if (data.isDirectory()) {
 					let rex = new RegExp(`\\${sep}${Scenario}$`, 'i');
 					let scenarioIsTree = rex.test(file);
-					findFiles(List, file, scenarioIsTree ? Scenario + '\\' + sep + name : Scenario);
+					findFiles(List, file, scenarioIsTree ? Scenario + '\\' + sep + name + Tester.FolderPrefix : Scenario);
 				} else {
 					let ext = FileExtensions.Scenario;
-					let rex = new RegExp(`\\${sep}${Scenario}.+\.${ext}$`, 'i');
+					let rex = new RegExp(`\\${sep}${Scenario}\.${ext}$`, 'i');
 					if (rex.test(file)) List.push(file)
 				}
 			}
