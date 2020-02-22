@@ -377,7 +377,7 @@ const Methods = {
 	connect: {
 		Name: 'Connect',
 		NameRu: 'Подключить',
-		Params: [parameterInfo('ClearErrors', 'ОчищатьОшибки', [Types.Boolean], '', '', 'true', 'истина'), parameterInfo('Post', 'Порт', [Types.Number], '', '', '0', '0')],
+		Params: [parameterInfo('ClearErrors', 'ОчищатьОшибки', [Types.Boolean], '', '', 'true', 'истина'), parameterInfo('Port', 'Порт', [Types.Number], '', '', '0', '0')],
 		HelpRu: 'Производит подключение Тестера к тестируемому приложению. Настройки подключения указываются в справочнике Приложения. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.Connect)',
 		Returns: undefined
 	},
@@ -664,7 +664,7 @@ const Methods = {
 	gotorow: {
 		Name: 'GotoRow',
 		NameRu: 'КСтроке',
-		Params: [StandardParameters.Value.Table, parameterInfo('Column', 'Колонка', [Types.String]), StandardParameters.Value, parameterInfo('FromStart', 'ИзНачала', [Types.Boolean]), StandardParameters.Source],
+		Params: [StandardParameters.Table, parameterInfo('Column', 'Колонка', [Types.String]), StandardParameters.Value, parameterInfo('FromStart', 'ИзНачала', [Types.Boolean]), StandardParameters.Source],
 		Help: 'Производит переход к строке таблицы. Метод не предназначен для поиска строк, метод предназначен для навигации к нужной строке. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.GotoRow)',
 		HelpRu: 'Производит переход к строке таблицы. Метод не предназначен для поиска строк, метод предназначен для навигации к нужной строке. [Справка](https://apps.rdbcode.com/tester.help.ru/hs/Document?Link=ru.Functions.GotoRow)',
 		Returns: Types.Boolean
