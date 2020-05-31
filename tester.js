@@ -533,6 +533,14 @@ const Methods = {
 		HelpRu: 'Сравнивает значение поля с переданным значением. Если значения не совпадают, будет вызвано исключение. [Справка](http://test1c.com/api#check)',
 		Returns: undefined
 	},
+	checktable: {
+		Name: 'CheckTable',
+		NameRu: 'ПроверитьТаблицу',
+		Params: [parameterInfo('Table', 'Таблица', [Types.String]), parameterInfo('Parameters', 'Параметры', [Types.Structure]), parameterInfo('Options', 'Опции', [Types.Structure]), StandardParameters.Source],
+		Help: 'Сравнивает таблицу или динамический список с эталоном. Если значения не совпадают, будет вызвано исключение. [Справка](http://test1c.com/api#checktable)',
+		HelpRu: 'Сравнивает таблицу или динамический список с эталоном. Если значения не совпадают, будет вызвано исключение. [Справка](http://test1c.com/api#checktable)',
+		Returns: undefined
+	},
 	checkstate: {
 		Name: 'CheckState',
 		NameRu: 'ПроверитьСтатус',
@@ -842,6 +850,7 @@ const MethodsRu = {
 	здесь: Methods.with,
 	выбрать: Methods.choose,
 	проверить: Methods.check,
+	проверитьтаблицу: Methods.checktable,
 	проверитьстатус: Methods.checkstate,
 	проверитьшаблон: Methods.checktemplate,
 	проверитьошибки: Methods.checkerrors,

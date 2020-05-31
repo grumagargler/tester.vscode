@@ -2,7 +2,7 @@
 	"name": "tester",
 	"displayName": "Tester 1C",
 	"description": "Tester 1C: Scenario Editor",
-	"version": "1.5.3",
+	"version": "1.5.4",
 	"publisher": "Reshitko",
 	"license": "SEE LICENSE IN LICENSE",
 	"engines": {
